@@ -1,7 +1,7 @@
 extern crate reqwest;
-use reqwest::{ClientBuilder, Error};
-extern crate serde_json;
 use super::line::meta_mode::MetaMode;
+use reqwest::{ClientBuilder, Error};
+use rocket::serde::json;
 use std::time::Duration;
 
 #[derive(Clone, Default)]
@@ -40,7 +40,7 @@ impl TflClient {
     match body {
       Ok(body) => {
         let str = String::from(body);
-        let meta_modes = serde_json::from_str(&str).unwrap();
+        let meta_modes = json::from_str(&str).unwrap();
         meta_modes
       }
       Err(_) => Vec::new(),

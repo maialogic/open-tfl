@@ -1,7 +1,7 @@
 use rocket::serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
-// #[serde(crate = "rocket::serde")]
+#[serde(crate = "rocket::serde")]
 pub struct MetaMode {
   #[serde(rename(serialize = "apiTypes", deserialize = "$type"))]
   api_types: String,
