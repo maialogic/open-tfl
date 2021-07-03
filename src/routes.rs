@@ -1,9 +1,8 @@
-use rocket::serde::json::Json;
-use rocket::tokio::task::spawn_blocking;
-
 use crate::tlf::{client, line};
 use client::TflClient;
 use line::meta_mode::MetaMode;
+use rocket::response::Debug;
+use rocket::serde::json::Json;
 
 #[get("/")]
 pub fn index() -> &'static str {
@@ -11,16 +10,8 @@ pub fn index() -> &'static str {
 }
 
 #[get("/modes")] // <- route attribute
-pub async fn modes() -> Json<Vec<MetaMode>> {
-  let client = TflClient::new();
-  match client {
-    Ok(c) => {
-      let result = spawn_blocking(move || c.get_line_meta_modes()).await;
-      match result {
-        Ok(res) => Json(res),
-        Err(_) => Json(Vec::new()),
-      }
-    }
-    Err(_) => Json(Vec::new()),
-  }
+pub async fn modes() -> Result<Json<Vec<MetaMode>>, Debug<Box<dyn std::error::Error>>> {
+  let client = TflClient::new()?;
+  let result = client.get_line_meta_modes().await?;
+  Ok(Json(result))
 }
