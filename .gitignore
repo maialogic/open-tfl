@@ -10,4 +10,10 @@ Cargo.lock
 **/*.rs.bk
 
 # Generated databases
-db.sqlite
+db.sqlite*
+
+# Docker PostgreSQL data
+db/data
+
+# .env
+.env

@@ -2,14 +2,16 @@
 extern crate rocket;
 
 mod routes;
-mod sqlx;
-pub mod tlf;
+mod db;
+pub mod tfl;
 use routes::{index, modes};
+use tfl::db as tfl_db;
 
 #[launch]
 fn rocket() -> _ {
   rocket::build()
-    .attach(sqlx::stage())
+    .attach(db::stage())
+    .attach(tfl_db::stage())
     .mount("/", routes![index])
     .mount("/api", routes![modes])
 }

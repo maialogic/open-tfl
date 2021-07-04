@@ -1,11 +1,11 @@
-use response::Debug;
+// use response::Debug;
 use rocket::fairing::{self, AdHoc};
-use rocket::{response, Build, Rocket};
+use rocket::{Build, Rocket};
 use rocket_sync_db_pools::Config;
-use sqlx::{migrate, ConnectOptions, Error};
+use sqlx::{migrate, ConnectOptions};
 
 type Db = sqlx::SqlitePool;
-type DbResult<T, E = Debug<Error>> = Result<T, E>;
+// type DbResult<T, E = Debug<Error>> = Result<T, E>;
 
 async fn init_db(rocket: Rocket<Build>) -> fairing::Result {
     let config = match Config::from("sqlx", &rocket) {
